@@ -63,7 +63,7 @@ func main() {
 	}
 	ldebug.Printf("interface name %s", interfaceName)
 
-	if s := os.Getenv("MQTT"); s != "" {
+	if s := os.Getenv("MQTT_SERVER"); s != "" {
 		mqttServer = s
 	}
 	ldebug.Printf("mqtt server %s", mqttServer)
@@ -72,6 +72,8 @@ func main() {
 		OnConnect:        connectHandler,
 		OnConnectionLost: connectLostHandler,
 		AutoReconnect:    true,
+		Username:         os.Getenv("MQTT_USERNAME"),
+		Password:         os.Getenv("MQTT_PASSWORD"),
 		ClientID:         "mac_presence_" + strconv.Itoa(os.Getpid()),
 		ConnectTimeout:   time.Second * 2,
 	}).AddBroker(mqttServer))
@@ -115,7 +117,7 @@ func main() {
 
 	handle, err := pcap.OpenLive(interfaceName, 262144, true, pcap.BlockForever)
 	errFatalf(err)
-	errFatalf(handle.SetBPFFilter("inbound and (udp port 53 or udp port 5353 or icmp or multicast or broadcast)"))
+	errFatalf(handle.SetBPFFilter("inbound and (udp port 53 or udp port 123 or icmp or multicast or broadcast)"))
 
 	packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 
@@ -200,6 +202,7 @@ func sendArp(iface *net.Interface, ip *net.IP) error {
 		DstHwAddress:      []byte{0, 0, 0, 0, 0, 0},
 		DstProtAddress:    []byte(*ip),
 	}
+	// Set up buffer and options for serialization.
 	buf := gopacket.NewSerializeBuffer()
 	opts := gopacket.SerializeOptions{
 		FixLengths:       true,
