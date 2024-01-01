@@ -33,3 +33,13 @@ LOG_LEVEL=info # Default is info, options are debug|info|error.
 ### Home Asistant
 
 When you connect your home assistant to the MQTT server, the application sends auto-configuration packets and the new devices will appear at the Home Assistant entity part.
+
+## Install
+
+Before getting the repository, you might need libpcap library in your system. You can get this library at Debian with `apt install -y libpcap-dev` command.
+
+Install mac-presence with the below command.
+
+```bash
+go install github.com/ahmetozer/mac-presence@latest
+```
