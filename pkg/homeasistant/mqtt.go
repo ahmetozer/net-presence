@@ -81,7 +81,7 @@ func ClientNew(device *DeviceInfo) error {
 
 	data, err := json.Marshal(deviceConfig{
 		StateTopic:     "presence/" + id + "/state",
-		Name:           "presence_" + id,
+		Name:           clientName(id, device),
 		ObjectId:       "net_presence_" + id,
 		PayloadHome:    PayloadHome,
 		PayloadNotHome: PayloadNotHome,

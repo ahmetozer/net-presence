@@ -8,6 +8,8 @@
 *.so
 *.dylib
 
+net-presence
+
 # Test binary, built with `go test -c`
 *.test
 

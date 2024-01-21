@@ -34,6 +34,8 @@ MQTT_SERVER=tcp://127.0.0.1:1883 # Mqtt server address.
 MQTT_USERNAME=""
 MQTT_PASSWORD=""
 LOG_LEVEL=info # Default is info, options are debug|info|error|fatal.
+
+DNS_SERVER="" # Set DNS server which integrated to DNS server (IP:PORT) to resolve IP to hostname. IF its installed to raspberry pi, you can set 127.0.0.1:53 or your routers address 192.168.1.1:53
 ```
 
 
