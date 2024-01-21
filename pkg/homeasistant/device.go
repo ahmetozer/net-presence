@@ -4,7 +4,7 @@ import "net"
 
 type DeviceInfo struct {
 	LastSeen int64
-	LastIP   net.IP
+	IP       net.IP
 	Mac      string
 }
 

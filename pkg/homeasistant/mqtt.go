@@ -1,6 +1,7 @@
 package homeasistant
 
 import (
+	"encoding/json"
 	"os"
 	"strconv"
 	"strings"
@@ -55,20 +56,47 @@ func Connect() {
 
 }
 
+type deviceConfig struct {
+	StateTopic string `json:"state_topic"`
+	// JsonAttributesTopic string `json:"json_attributes_topic,omitempty"`
+	ObjectId       string `json:"object_id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	PayloadHome    string `json:"payload_home,omitempty"`
+	PayloadNotHome string `json:"payload_not_home,omitempty"`
+	SourceType     string `json:"source_type,omitempty"`
+	// ValueTemplate  string `json:"value_template,omitempty"`
+	// Device         struct {
+	// 	Connections [][]string `json:"connections,omitempty"`
+	// } `json:"device,omitempty"`
+}
+
+const (
+	PayloadHome    = "home"
+	PayloadNotHome = "not_home"
+	SourceType     = "router"
+)
+
 func ClientNew(device *DeviceInfo) error {
 	id := GetId(device)
-	return publish("homeassistant/device_tracker/"+id+"/config", 0, false, `{"state_topic": "presence/`+id+`/state", "name": "`+id+`", "payload_home": "home", "payload_not_home": "not_home"}`).Error()
+
+	data, err := json.Marshal(deviceConfig{
+		StateTopic:     "presence/" + id + "/state",
+		Name:           "presence_" + id,
+		ObjectId:       "net_presence_" + id,
+		PayloadHome:    PayloadHome,
+		PayloadNotHome: PayloadNotHome,
+		SourceType:     SourceType,
+	})
+	b.ErrNil(b.Error, err)
+	token := publish("homeassistant/device_tracker/"+id+"/config", 0, false, string(data))
+	token.Wait()
+	return token.Error()
 }
 
-func ClientAtHome(device *DeviceInfo) error {
-	id := GetId(device)
-	return publish("presence/"+id+"/state", 0, false, "home").Error()
-}
-
-func ClientNotHome(device *DeviceInfo) error {
-	id := GetId(device)
-	return publish("presence/"+id+"/state", 0, false, "not_home").Error()
-
+func State(device *DeviceInfo, state string) error {
+	token := publish("presence/"+GetId(device)+"/state", 0, false, state)
+	token.Wait()
+	return token.Error()
 }
 
 func idByMac(d *DeviceInfo) string {
@@ -78,12 +106,12 @@ func idByMac(d *DeviceInfo) string {
 
 func idByIp(d *DeviceInfo) string {
 
-	return strings.Replace(d.LastIP.String(), ".", "_", -1)
+	return strings.Replace(d.IP.String(), ".", "_", -1)
 }
 
 func idByMacIP(d *DeviceInfo) string {
 
-	return strings.Replace(d.Mac, "-", "_", -1) + strings.Replace(d.LastIP.String(), ".", "_", -1)
+	return strings.Replace(d.Mac, "-", "_", -1) + strings.Replace(d.IP.String(), ".", "_", -1)
 }
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {

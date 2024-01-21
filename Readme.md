@@ -19,14 +19,21 @@ Broadcast query is only invoked if the device does not create traffic in a certa
 The system configuration is done by setting environment variables.
 
 ```bash
-MAC_TTL=30 # Informing the Home Assistant of the device status as away.
-ARP_TTL=15 # Creating ARP packages that query MAC address based on the last seen IP address.
-PING_TTL=12 # Pinging of the device with ICMP packages after the duration of no packages arriving in the system.
+PRESENCE_TTL=60 #The threshold of no activity duration to inform the home assistant device is not home.
+PRESENCE_INTERVAL=15 # Interval of the presence verify system 
+ARP_TTL=35 # create an ARP query if the device is not present more than 35.
+PING_TTL=12 # create an ICMP query if the device is not present more than 12.
 INTERFACE=eth0 # The interface from which network traffic will be listened to.
+
+ID_SOURCE=IP # Home assistant ID combination based on network information. 
+# If you have a flat network (which means wifi repeaters work at bridge mode and no NAT present) you can use MAC address instead of IP.
+# If you have cheap Wifi repeaters, which do not have MESH support and bridge, you can use IP mode.
+# The last mode MAC_IP combination can be used for debugging purposes.
+
 MQTT_SERVER=tcp://127.0.0.1:1883 # Mqtt server address.
 MQTT_USERNAME=""
 MQTT_PASSWORD=""
-LOG_LEVEL=info # Default is info, options are debug|info|error.
+LOG_LEVEL=info # Default is info, options are debug|info|error|fatal.
 ```
 
 

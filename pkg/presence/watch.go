@@ -38,17 +38,17 @@ func Watch(interfaceName string) {
 			continue // to proccess next packet
 		}
 
-		id = macSrc + ip.String()
+		id = macSrc + "-" + ip.String()
 		if _, ok := ha.Devices[id]; !ok {
 			//do something here
-			ha.Devices[id] = &ha.DeviceInfo{LastSeen: 0, LastIP: ip, Mac: macSrc}
+			ha.Devices[id] = &ha.DeviceInfo{LastSeen: 0, IP: ip, Mac: macSrc}
 			b.ErrNil(b.Error, ha.ClientNew(ha.Devices[id]))
-			b.Info("new device %v\n", macSrc)
+			b.Info("new device %+v\n", *ha.Devices[id])
 		}
 
 		if ha.Devices[id].LastSeen == 0 {
-			b.ErrNil(b.Error, ha.ClientAtHome(ha.Devices[id]))
-			b.Info("home %v\n", macSrc)
+			b.ErrNil(b.Error, ha.State(ha.Devices[id], ha.PayloadHome))
+			b.Info("home %+v\n", *ha.Devices[id])
 		}
 
 		ha.Devices[id].LastSeen = time.Now().Unix()
