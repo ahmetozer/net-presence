@@ -7,6 +7,9 @@ import (
 )
 
 var Readme *string
+var BuildVersion string
+var BuildDate string
+var BuildCommit string
 
 func Flag() {
 	readme := flag.Bool("readme", false, "print readme")
@@ -22,8 +25,12 @@ func Flag() {
 	MQTT_SERVER := flag.String("mqtt-server", "", "Mqtt server address")
 	MQTT_USERNAME := flag.String("mqtt-username", "", "Mqtt server username")
 	MQTT_PASSWORD := flag.String("mqtt-password", "", "Mqtt server password")
-	LOG_LEVEL := flag.String("log-level", "", "Default is info, options are debug|info|error|fatal")
 	DNS_SERVER := flag.String("dns-server", "", "DNS server to resolve IP and hostname")
+
+	LOG_LEVEL := flag.String("log-level", "", "Default is info, options are debug|info|error|fatal")
+	LOG_FILE := flag.String("log-file", "", "Set output to file instead std")
+
+	VERSION := flag.Bool("version", false, "print version")
 
 	flag.Parse()
 
@@ -57,6 +64,10 @@ func Flag() {
 	if *LOG_LEVEL != "" {
 		os.Setenv("LOG_LEVEL", *LOG_LEVEL)
 	}
+	if *LOG_FILE != "" {
+		os.Setenv("LOG_FILE", *LOG_FILE)
+	}
+
 	if *DNS_SERVER != "" {
 		os.Setenv("DNS_SERVER", *DNS_SERVER)
 	}
@@ -68,6 +79,11 @@ func Flag() {
 
 	if *readme {
 		fmt.Printf("%s\n", *Readme)
+		os.Exit(0)
+	}
+
+	if *VERSION {
+		fmt.Printf("version %s, commit %s, build date %s", BuildVersion, BuildCommit, BuildDate)
 		os.Exit(0)
 	}
 

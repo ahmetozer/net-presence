@@ -1,5 +1,7 @@
 github.com/ahmetozer/basiclog v0.0.0-20240114210853-bf1be3a5c2d9 h1:1ZYQr8WfZq1neU4uesT1ar1+lkCVsJ5u6qehertpFsU=
 github.com/ahmetozer/basiclog v0.0.0-20240114210853-bf1be3a5c2d9/go.mod h1:7NWsSsjjMXlQuVJ4qmhKxt/WHUlZfs+S82WntAXzOng=
+github.com/ahmetozer/basiclog v0.0.0-20240218125729-1399242d23f0 h1:J8U0ftodf8FbXnvleqlKJdbH8psEkiKl8iGIiB6aOJU=
+github.com/ahmetozer/basiclog v0.0.0-20240218125729-1399242d23f0/go.mod h1:7NWsSsjjMXlQuVJ4qmhKxt/WHUlZfs+S82WntAXzOng=
 github.com/eclipse/paho.mqtt.golang v1.4.3 h1:2kwcUGn8seMUfWndX0hGbvH8r7crgcJguQNCyp70xik=
 github.com/eclipse/paho.mqtt.golang v1.4.3/go.mod h1:CSYvoAlsMkhYOXh/oKyxa8EcBci6dVkLCbo5tTC1RIE=
 github.com/google/gopacket v1.1.19 h1:ves8RnFZPGiFnTS0uPQStjwru6uO6h+nlr9j6fL7kF8=
