@@ -16,7 +16,7 @@ Broadcast query is only invoked if the device does not create traffic in a certa
 
 ### Mac Presence
 
-The system configuration is done by setting environment variables.
+The system configuration is done by setting environment variables or arguments.
 
 ```bash
 PRESENCE_TTL=60 #The threshold of no activity duration to inform the home assistant device is not home.
@@ -36,14 +36,30 @@ MQTT_PASSWORD=""
 LOG_LEVEL=info # Default is info, options are debug|info|error|fatal.
 
 DNS_SERVER="" # Set DNS server which integrated to DNS server (IP:PORT) to resolve IP to hostname. IF its installed to raspberry pi, you can set 127.0.0.1:53 or your routers address 192.168.1.1:53
+
+LOG_FILE="" # Set log file
 ```
 
+For arguments, you can use `-help` to list arguments.
 
 ### Home Asistant
 
 When you connect your home assistant to the MQTT server, the application sends auto-configuration packets and the new devices will appear at the Home Assistant entity part.
 
 ## Install
+
+### Prebuilt
+
+Visit [https://github.com/ahmetozer/net-presence/releases](https://github.com/ahmetozer/net-presence/releases) and download your binnary.
+
+```bash
+wget https://github.com/ahmetozer/net-presence/releases/download/xxx/x.gz -O net-presence.gz # replace x with version
+gunzip net-presence.gz
+chmod +x net-presence
+mv net-presence /usr/bin/
+```
+
+### From source
 
 Before getting the repository, you might need libpcap library in your system. You can get this library at Debian with `apt install -y libpcap-dev` command.
 
