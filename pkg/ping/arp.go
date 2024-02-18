@@ -1,6 +1,7 @@
 package ping
 
 import (
+	"errors"
 	"net"
 
 	"github.com/google/gopacket"
@@ -25,6 +26,11 @@ func Arp(iface *net.Interface, ip *net.IP) error {
 			}
 		}
 	}
+
+	if addr == nil || addr.IP == nil {
+		return errors.New("source addr not found")
+	}
+
 	eth := layers.Ethernet{
 		SrcMAC:       iface.HardwareAddr,
 		DstMAC:       net.HardwareAddr{0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
