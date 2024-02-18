@@ -48,6 +48,8 @@ When you connect your home assistant to the MQTT server, the application sends a
 
 ## Install
 
+Libpcap library is require in your system. You can get this library at Debian with `apt install -y libpcap-dev` command.
+
 ### Prebuilt
 
 Visit [https://github.com/ahmetozer/net-presence/releases](https://github.com/ahmetozer/net-presence/releases) and download your binnary.
@@ -60,8 +62,6 @@ mv net-presence /usr/bin/
 ```
 
 ### From source
-
-Before getting the repository, you might need libpcap library in your system. You can get this library at Debian with `apt install -y libpcap-dev` command.
 
 Install mac-presence with the below command.
 
