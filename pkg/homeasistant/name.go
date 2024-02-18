@@ -23,9 +23,6 @@ var (
 
 func init() {
 	clientName = nameById
-	if dnsServer = os.Getenv("DNS_SERVER"); dnsServer != "" {
-		clientName = nameByDNS
-	}
 }
 
 func nameById(id string, device *DeviceInfo) string {
@@ -43,4 +40,10 @@ func nameByDNS(id string, device *DeviceInfo) string {
 	}
 
 	return nameById(id, device)
+}
+
+func checkDnsVar() {
+	if dnsServer = os.Getenv("DNS_SERVER"); dnsServer != "" {
+		clientName = nameByDNS
+	}
 }

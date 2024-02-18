@@ -17,7 +17,7 @@ var (
 )
 
 func Connect() {
-
+	checkDnsVar()
 	mqttServer := "tcp://127.0.0.1:1883"
 
 	if s := os.Getenv("MQTT_SERVER"); s != "" {
